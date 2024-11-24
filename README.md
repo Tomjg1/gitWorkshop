@@ -5,24 +5,26 @@ Note that this workshop assumes you already have git installed and connected to 
 
 ## Overview:
 1. Learning about local git
-2. Commiting changes
+2. Committing changes
 3. Connecting Local git to GitHub
 
 ---
 
-## 0. Introduce yourself to git
+## Introduce Yourself to Git
+```
+git config --global user.name "Name Here"
+git config --global user.email "yourEmail@gmail.com"
+```
 - *If you have never used git before on your machine*, then you need to introduce yourself!
 - We need to tell git who we are. More specifically, we need to tell git which name and email we want to associate with our commits and our account
-`git config --global user.name "Name Here"`
-`git config --global user.email "yourEmail@gmail.com"
 - Here were configuring a global configuration key, thus it will apply to all git repository's from now on
-- you can view all your git config settings using: 
+- you can view all your git config settings using:\
 `git config --list`
-- Or you can view specific config values:
-`git config <key>`
-`git config user.name`
+- Or you can view specific config values:\
+`git config <key>`\
+`git config user.name`\
 
-## 1. Init a git repo
+## Init a Git Repo
 - Git will only work if we tell it which repositories we want it to track. 
 - Navigate to the repository you want to track
 - Tell git that we want it to track this file\
@@ -34,28 +36,23 @@ Note that this workshop assumes you already have git installed and connected to 
 `git checkout -b main`
 - For more information about branches, and what this is doing, see the branch section
 
-## 2. Changes
-
----
-
+## Changes
  There are some handy commands we will be using this tutorial that speeds up the process of changing files\
--`touch filename.txt` Creates an empty file\
-- `rm filename.txt` Deletes the file (Careful, it will not ask for permission and is unrecoverable)\
-- `echo "A line of text" >> filename.txt` Appends (adds) the line of text to the end of the file, or creates a new file if filename.txt does not exist. 
-    - Note: if you use a single arrow: `>` instead of a double `>>` your entire file will be rewritten with just your new line of text
+ ```
+touch filename.txt Creates an empty file\
+rm filename.txt Deletes the file (Careful, it will not ask for permission and is unrecoverable)\
+echo "A line of text" >> filename.txt (Appends (adds) the line of text to the end of the file, or creates a new file if filename.txt does not exist)
+    - Note: if you use a single arrow: > instead of a double >> your entire file will be rewritten with just your new line of text so be careful
+cat filename.txt (print a file to the terminal)
 ```
-> cat filename.txt
-A line of text
-```
-- We can check the contents of our file using `cat`
----
+
 - Assuming that it is an empty repository, there is nothing for our git to track. Let's create a file and start tracking it\
 `echo "hello" >> a.txt`
 
 - Using the append command we have created our first, file, a.txt
 - There has now been a change to the repository!
 
-### git status
+### Git status
 
 - `git status` is our best friend. We will be using it a lot. 
 - In a way, git status is our home base. It provides general information about our repo, and about the files git is managing
@@ -78,7 +75,14 @@ nothing added to commit but untracked files present (use "git add" to track)
 - Currently, our `a.txt` file is untracked, thus if we were to delete our file, the file and our changes would be lost.
 - `git add a.txt` This now adds our file to the staging area.
 
-## git add and the Staging area 
+## Git Add and the Staging Area 
+```
+git add . (Take a snapshot of your entire reposity and adds it to the staging area)
+git add * (Add all new and modified file, does not stage hidden files, does not stage file deletions)
+git commit -a (Skip the staging step. Add all files that have been changed/deleted. Does not add untracked files to stageing area)
+```
+- Note on file deletions. If deleting a tracked file locally,(`rm filename.txt`), we need to tell git that changes have been made to the file. Use `git add filename.txt` to stage individual deletions to the staging area
+
 - Using `git add` on an untracked file will tell git to start tracking that file, and add its current state to the **staging area**
 - The staging area is where files have are put, ready used in a commit. 
 - The staging area is a snapshot of the file, at the time it is added.
@@ -89,15 +93,13 @@ nothing added to commit but untracked files present (use "git add" to track)
 
 ---
 
-**Handy add commands**\
-`git add .` Take a snapshot of your entire reposity and adds it to the staging area\
-`git add \*` Add all new and modified file, does not stage hidden files, does not stage file deletions
-- Note on file deletions. If delete a tracked file locally,`rm filename.txt`, we need to tell git that changes have been made to the file. So use `git add filename.txt` to stage individual deletions to the staging area
-git add step can be skipped in the commit stage using:\
-`git commit -a`\
-adds any files that have been changed or deleted, but does not add untracked files during the commit step, allowing us to skip the add step
-
-## git commit
+## Git Commit
+```
+git commit  (opens text editor to add details about commit)
+git commit -a (adds all tracked files to staging area and opens text editor)
+git commit -m "Commit message" (commit message in command, does not open text editor)
+git commit -am "Commit Message" (Adds all tracked files into staging area, inline commit message)
+```
 
 - Let's suppose we are in a place with our repository that we want to save. 
 - To be able to come back to this exact point, let's make a commit\
@@ -116,7 +118,15 @@ git commit -am "update a.txt"
     - Note that the `-a` option does not add untracked files to the staging area
 - lets see what happens if we want to go back to our old commit point
 
-## git log
+## Git Log
+```
+git log (Show past commits in full)
+git log --oneline (Show one line for commit)
+git log -5 (Only show the logs of the last 5 commits)
+git log --oneline --graph --all --decorate (--graph show a graphical version of the commit history, --all shows all branches, --decorate labels branches)
+git log -S "string" (show logs that have changed any lines that contain the string)
+git log -patch (or -p for short, Shows line changes within log)
+```
 - `git log` allows us to view the commit history of a git repository. It provides a lot of in depth information, however it is not very useful as an out of the box tool. 
 - Let us add the following options:\
 `--oneline` Shorten the commit to just 1 line\
@@ -125,24 +135,33 @@ git commit -am "update a.txt"
 `-5` Replace 5 with any number, this limits the output to show the last 5 commits in the history (very useful)\
 
 - Thus let's run our new command:\
-`git log --oneline --all --graph -5` - note that since we only have 2 commits, our limit of 5 does nothing
-this is a lot more understandable
+`git log --oneline --all --graph -5` 
+- Note that since we only have 2 commits, our limit of 5 does nothing
 
-- For a very comprehensive git log that provides oneline, graph, color, relative date of commit, commit hash, and commit message, create the following alias:\
-```git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"```
+- For a very comprehensive git log that provides oneline, graph, color, relative date of commit, commit hash, and commit message, create the following alias:
+```
+git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+```
 
-## HEAD
-- We can now make a note of the first commit ID, and lets view the repository at a certain point in history\
+## Git Checkout
+```
+git checkout BranchName (Set branchName as current branch)
+git checkout -b newBranch (Create newBranch and set as current branch)
+git checkout commitID (checkout a specific commit, replacing commitID with first 4-5 values of the commit Hash value)
+```
+
+- We can now make a note of the first commit ID, and let's view the repository at a certain point in history\
 `git checkout 'commitID'`
 - We've now disconnected from the main branch, and are now a floating HEAD.\
-**HEAD**
+**HEAD** - A side note:
 - `HEAD` is the pointer to whatever commit we are currently observing.
-- Normally `HEAD` is attached to a branch, e.g. main, which it automatically tracks and remains unseen. When we checkout a different branch, we are moving our HEAD to look at the commit ID the branch is currently pointing to. 
+- Normally `HEAD` is attached to a branch, e.g. main, which it automatically tracks and remains unseen. 
+- When we checkout a different branch, we are moving our HEAD to look at the commitID that the branch is currently pointing to. 
 - However, we can disconnect our HEAD pointer from the branch and take a look at other commits.\
 `cat a.txt` shows that we are looking at a version of our file at the point of the first commit.\
-- In general, don't make any changes while floating. If you really need to try making changes from a certain point in history, create a new branch at that point, and try making changes from that point in history\
+- In general, don't make any changes while floating. If you really need to make changes from a certain point in history, create a new branch at that point, and make changes from here, then merge into main.\
 `git checkout main` reattach our HEAD pointer to follow the main branch 
-- checkout https://learngitbranching.js.org/ for a great visualization of what branches are doing within git, and how we can move the HEAD pointer around to look at the commit history
+- Check https://learngitbranching.js.org/ for a great visualization of what branches are doing within git, and how we can move the HEAD pointer to different commits in the commit history
 
 ## Branches (Finally)
 ```
@@ -186,8 +205,74 @@ Let's break down what's happening:
 7. Merge the changes from bugFix into our main branch
 8. Now that we have fixed our bug, we can delete or bugFix branch. All this does is remove the pointer to this commit, the commit history still exists. We just want to clean up our git and keep things organized
 
+## Merge Conflicts
+```git
+Auto-merging a.txt
+CONFLICT (content): Merge conflict in a.txt
+Automatic merge failed; fix conflicts and then commit the result.
+```
+**Do not panic!**\
+- During merging, Git is pulling in changes from both branches and trying to rectify them
+- Conflicts arise when we changed the same line in a file from 2 different branches.
+- Running `git status` tells us that we have conflicts to solve
+- Git helps us along the way, and gives us instructions on what to do:
+```git
+On branch main
+You have unmerged paths.
+  (fix conflicts and run "git commit")
+  (use "git merge --abort" to abort the merge)
 
+Unmerged paths:
+  (use "git add <file>..." to mark resolution)
+        both modified:   a.txt
 
-
-
-
+no changes added to commit (use "git add" and/or "git commit -a")
+```
+- Let's fix our conflicts ourselves
+- If we print our a.txt file well notice that the file looks very different
+```git
+old text
+<<<<<<< HEAD
+Goodbye from main
+=======
+hello
+>>>>>>> bugFix
+```
+- Here we have our conflict line laid out for us
+- everything from `<<<<<<<< HEAD` to the `========` is from the main branch (where our HEAD currently points)
+- everything from `========` to the `>>>>>>>> bugFix` is from bugFix branch 
+- Choose one of the 2 texts or neither and put whatever we want.
+- To fix this, open the file within a text editor of your choice.
+- Navigate to the problematic lines and replace the whole section (from the `<<<<<<` to the `>>>>>>`) with your fix:
+```
+old text
+hello and Goodbye from main
+```
+- stage the file
+```
+git add a.txt
+```
+- Using `git add` will mark that file as resolved.
+- Since we only had 1 file conflict, the conflict can now finish our merging process
+- We need to make one more commit. Why? Because changes to files have occurred during our resolution process
+```git
+git commit -m "reslolve conflict merge with bugFix and Main"
+```
+- one slight note, we have pulled the changes from bugFix into main, but have not pulled changes from main into bugfix
+- What does this mean? Our latest conflict-resolution that has happened is not seen in bugFix
+- `git log --oneline --decorate --all --graph` shows that main is ahead of bugFix by one commit
+```git
+*   467eb2d - (HEAD -> main) fix conflict (2 seconds ago) <DannyPlatt>
+|\  
+| * b492774 - (bugFix) commit from bugFix (28 minutes ago) <DannyPlatt>
+* | 526ec4f - Commit from main to create conflict (27 minutes ago) <DannyPlatt>
+```
+- This is fine if we are deleting it, however if we intend to keep it around, we must update it to match the changes from main before making changes
+```
+git checkout bugFix
+git merge main
+```
+- Now the git log will show both branches on the same commit
+```
+*   467eb2d - (HEAD -> bugFix, main) fix conflict (26 seconds ago) <DannyPlatt>
+```
