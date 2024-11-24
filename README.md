@@ -1,9 +1,8 @@
-# **Git Workshop 
+# Git Workshop
 
 Welcome to the **Git Workshop**! This repository will serve as the base for our workshop activities.
 Note that this workshop assumes you already have git installed and connected to your GitHub account
 
----
 ## Overview:
 1. Learning about local git
 2. Commiting changes
@@ -27,35 +26,38 @@ Note that this workshop assumes you already have git installed and connected to 
 ### 1. Init a git repo
 - Git will only work if we tell it which repositories we want it to track. 
 - Navigate to the repository you want to track
-- Tell git that we want it to track this file
+- Tell git that we want it to track this file\
 `git init`
 - This will create a `.git` file within your repo. Note that it is a hidden file
-- Note also that no branch has been made yet
+- Note also that no branch has been made yet\
 `git branch` returns nothing.
-- Let's create our main branch
+- Let's create our main branch\
 `git checkout -b main`
 - For more information about branches, and what this is doing, see the branch section
 
 ### 2. Changes
 
 ---
-    - There are some handy commands we will be using this tutorial that speeds up the process of changing files
+
+- There are some handy commands we will be using this tutorial that speeds up the process of changing files\
     `touch filename.txt` Creates an empty file
-    `rm filename.txt` Deletes the file (Careful, it will not ask for permission and is unrecoverable)
+`rm filename.txt` Deletes the file (Careful, it will not ask for permission and is unrecoverable)
     `echo "A line of text" >> filename.txt` Appends (adds) the line of text to the end of the file, or creates a new file if filename.txt does not exist. 
-        - Note: if you use a single arrow: `>` instead of a double `>>` your entire file will be rewritten with just your new line of text
+    - Note: if you use a single arrow: `>` instead of a double `>>` your entire file will be rewritten with just your new line of text
     - We can check the contents of our file using `cat`
     ```
     > cat filename.txt
     A line of text
     ```
 ---
-- Assuming that it is an empty repository, there is nothing for our git to track. Let's create a file and start tracking it
+- Assuming that it is an empty repository, there is nothing for our git to track. Let's create a file and start tracking it\
 `echo "hello" >> a.txt`
 
 - Using the append command we have created our first, file, a.txt
 - There has now been a change to the repository!
+
 #### git status
+
 - `git status` is our best friend. We will be using it a lot. 
 - In a way, git status is our home base. It provides general information about our repo, and about the files git is managing
 - It is here we start to discuss the git workflow
@@ -70,19 +72,19 @@ Untracked files:
 	a.txt
 
 nothing added to commit but untracked files present (use "git add" to track)
-
 ```
-*Untracked Files*
+
+**Untracked Files**
 - Untracked, as one would expect, are not tracked by git. Git only tracks files that we explicitly tell it to. 
 - Currently, our `a.txt` file is untracked, thus if we were to delete our file, the file and our changes would be lost.
+- `git add a.txt` This now adds our file to the staging area.
 
-`git add a.txt` This now adds our file to the staging area.
 ---
 **`git add` and the Staging area**
 - Using `git add` on an untracked file will tell git to start tracking that file, and add its current state to the **staging area**
 - The staging area is where files have are put, ready used in a commit. 
-    - The staging area is a snapshot of the file, at the time it is added.
-    - If further changes of the file are made, we need to update this snapshot, by repeating `git add a.txt`
+- The staging area is a snapshot of the file, at the time it is added.
+- If further changes of the file are made, we need to update this snapshot, by repeating `git add a.txt`
     - One way to picture the purpose of the staging area, is to think of it as the counter at a restaurant the chef's put the food on for the servers to take to the customers,
     - If the food needs changes (perhaps the chef forgot some salt) changes can still be made to the plate. (using `git add filename` again after changes have been made)
     - If the food (file) is a mistake, and never should have been served, it can be removed from the counter `git rm --cached filename`
