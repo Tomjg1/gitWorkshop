@@ -79,8 +79,7 @@ nothing added to commit but untracked files present (use "git add" to track)
 - Currently, our `a.txt` file is untracked, thus if we were to delete our file, the file and our changes would be lost.
 - `git add a.txt` This now adds our file to the staging area.
 
----
-**`git add` and the Staging area**
+### git add and the Staging area 
 - Using `git add` on an untracked file will tell git to start tracking that file, and add its current state to the **staging area**
 - The staging area is where files have are put, ready used in a commit. 
 - The staging area is a snapshot of the file, at the time it is added.
@@ -88,17 +87,42 @@ nothing added to commit but untracked files present (use "git add" to track)
     - One way to picture the purpose of the staging area, is to think of it as the counter at a restaurant the chef's put the food on for the servers to take to the customers,
     - If the food needs changes (perhaps the chef forgot some salt) changes can still be made to the plate. (using `git add filename` again after changes have been made)
     - If the food (file) is a mistake, and never should have been served, it can be removed from the counter `git rm --cached filename`
+
 ---
 
+** Handy add commands**
+`git add .` Take a snapshot of your entire reposity and adds it to the staging area
+`git add \*` Add all new and modified file, does not stage hidden files, does not stage file deletions
+- Note on file deletions. If delete a tracked file locally,`rm filename.txt`, we need to tell git that changes have been made to the file. So use `git add filename.txt` to stage individual deletions to the staging area
+git add step can be skipped in the commit stage using:\
+`git commit -a` adds any files that have been changed or deleted, but does not add untracked files during the commit step, allowing us to skip the add step
 
-### **1. Fork This Repository**
-- Go to the top-right corner of this repository's page.
-- Click the **Fork** button to create a copy under your GitHub account.
+---
+### git commit
+- Lets suppose we are in a place with our repository that we want to save. 
+- To be able to come back to this exact point, let's make a commit
+`git commit -m "add file a.txt to the repository"`
+- We've now created a commit, a snapshot of all our trcked file at the point of the commit
+- each commit has a commit ID that can be called if we ever want to view this commit later.
+- If we ever want to call the ID, we don't have to use the entire commit ID value, just enough to provide uniqueness. A minimum of 4 values. 
 
-### **2. Clone Your Fork**
-- Copy the URL of your forked repository.
-- Run the following command in your terminal to clone the repository locally:
-  ```bash
-  git clone https://github.com/your-username/git-workshop.git
-  cd git-workshop
+---
+-Let's create another change, and another commit so that we have a second commit
+```
+echo "second commit text" >> a.txt
+git commit -am "update a.txt"
+```
+- Here we are combining the -a and -m options, thus through our commit message we are adding any changes in all our tracked files, and adding the commit message within a single command. Very handy
+    - Note that the -a command does not add untracked files to the staging area
+- lets see what happens if we want to go back to our old commit point
+`git log --oneline`
+- make a note of the first commit ID
+`git checkout 'commitID'`
+- We've now disconnected from the main branch, and are now a floating HEAD. Our point within the commit history, wherever we are, that is represented by the HEAD pointer\
+`cat a.txt` shows that we are looking at a version of our file at the point of the first commit.\
+`git checkout main` reattach our HEAD pointer to follow the main branch 
+
+### git log
+- For a very comprehensive git log that provides oneline, graph, color, relative date of commit, commit hash, and commit message, use create the following alias:
+`git config --global alias.lg log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit`
 
