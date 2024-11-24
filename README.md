@@ -129,15 +129,15 @@ git commit -am "update a.txt"
 this is a lot more understandable
 
 - For a very comprehensive git log that provides oneline, graph, color, relative date of commit, commit hash, and commit message, create the following alias:\
-`git config --global alias.lg log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit`
+```git config --global alias.lg log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit```
 
 ## HEAD
 - We can now make a note of the first commit ID, and lets view the repository at a certain point in history\
 `git checkout 'commitID'`
 - We've now disconnected from the main branch, and are now a floating HEAD.\
-**HEAD**\
+**HEAD**
 - `HEAD` is the pointer to whatever commit we are currently observing.
-- Normally `HEAD` is attached to a branch, e.g. main, which it automatically tracks. When we checkout a different branch, we are moving our HEAD to look at the commit ID the branch is currently pointing to. 
+- Normally `HEAD` is attached to a branch, e.g. main, which it automatically tracks and remains unseen. When we checkout a different branch, we are moving our HEAD to look at the commit ID the branch is currently pointing to. 
 - However, we can disconnect our HEAD pointer from the branch and take a look at other commits.\
 `cat a.txt` shows that we are looking at a version of our file at the point of the first commit.\
 - In general, don't make any changes while floating. If you really need to try making changes from a certain point in history, create a new branch at that point, and try making changes from that point in history\
@@ -146,15 +146,15 @@ this is a lot more understandable
 
 ## Branches (Finally)
 ```
-git checkout branchName
-git checkout -b NewBranchName
-git branch 
+git checkout branchName  (swap to sepcified banche)
+git checkout -b NewBranchName  (create new branch and move to it)
+git branch  (lists local branches)
 ```
 - At long last we get to branches. 
 - Using a git branch is a way of making experimental changes to a repository while also maintaining a working copy
 - Suppose you have to present an update to your class, and must show a working prototype. The main branch of the git repo is working and we dont want to effect it, but we still want to keep working on the project. What do we do?
 - We make a branch!\
-`git checkout -b newBranchName`\
+`git checkout -b newBranchName`
 - We now have a branch that we can make changes to, make commits to, and progress the project further, all while keeping the working copy of the file ready for the demo.
 - Once we finish our demo, we can easily merge our experimental branch to our main branch, and continue working from where we left off
 
@@ -168,25 +168,24 @@ git branch
 - Thus, when we want to make changes, follow the following workflow
 ```
 git checkout -b bugFix
-- make changes within bug fix
-echo "within bugfix" >> a.txt
+echo "within bugfix" >> a.txt (make changes within bugFix)
 git commit -am "fix bug"
-- Maybe fix a second bug:
-echo "second commit within bugifx" >> a.txt
+echo "second commit within bugifx" >> a.txt (Maybe fix a second bug)
 git commit -am "fix second bug"
 git checkout main
 git merge bugFix
 git branch -d bugFix
 ```
 Let's break down what's happening:
-1. Create new branch bugFix and place our HEAD to point at it
+1. Create and checkout a new branch called bugFix
 2. We make our changes within the branch
 3. Add and commit our first fix
 4. Fix the second bug in the code
-5. commit the second bug fix
-6. Now that our fixBug brach is working perfectly, we checkout main to merge the changes
+5. Commit the second bug fix
+6. Now that our fixBug branch is working perfectly, we checkout main to merge the changes
 7. Merge the changes from bugFix into our main branch
 8. Now that we have fixed our bug, we can delete or bugFix branch. All this does is remove the pointer to this commit, the commit history still exists. We just want to clean up our git and keep things organized
+
 
 
 
