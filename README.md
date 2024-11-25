@@ -1,6 +1,11 @@
 # Git Workshop
 The goal of this document is to take a person who has little understanding of git, and bring them to a point where they are able use git proficiently. I want to remove the fear that I so often felt when using git.
 
+## Resources:
+- Git branch lessons and graphic visualization: https://learngitbranching.js.org/
+- Git book: https://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository
+- An explanation of the "behind the scenes" of git https://jwiegley.github.io/git-from-the-bottom-up/
+
 ## Goals:
 By the end of this workshop you should have a solid understanding of:
 1. Version control basics
@@ -43,7 +48,7 @@ git config --global user.email "yourEmail@gmail.com"
 `git config --list`
 - Or you can view specific config values:\
 `git config <key>`\
-`git config user.name`\
+`git config user.name`
 
 ## Init a Git Repo
 - Git will only work if we tell it which repositories we want it to track. 
@@ -58,7 +63,7 @@ git config --global user.email "yourEmail@gmail.com"
 - For more information about branches, and what this is doing, see the branch section
 
 ## Changes
- There are some handy commands we will be using this tutorial that speeds up the process of changing files\
+ There are some handy commands we will be using this tutorial that speeds up the process of changing files
  ```
 touch filename.txt                      (Creates an empty file)
 rm filename.txt                         (Deletes the file Careful, it will not ask for permission and is unrecoverable)
