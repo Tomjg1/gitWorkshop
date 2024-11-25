@@ -93,12 +93,13 @@ git commit -a (Skip the staging step. Add all files that have been changed/delet
 - Note on file deletions. If deleting a tracked file locally,(`rm filename.txt`), we need to tell git that changes have been made to the file. Use `git add filename.txt` to stage individual deletions to the staging area
 
 - Using `git add` on an untracked file will tell git to start tracking that file, and add its current state to the **staging area**
-- The staging area is where files have are put, ready used in a commit. 
+- The staging area is where files are put, ready to be used in a commit. 
 - The staging area is a snapshot of the file, at the time it is added.
 - If further changes of the file are made, we need to update this snapshot, by repeating `git add a.txt`
     - One way to picture the purpose of the staging area, is to think of it as the counter at a restaurant the chef's put the food on for the servers to take to the customers,
     - If the food needs changes (perhaps the chef forgot some salt) changes can still be made to the plate. (using `git add filename` again after changes have been made)
     - If the food (file) is a mistake, and never should have been served, it can be removed from the counter `git rm --cached filename`
+    - If it's ready to be taken away, we can commit it, and have the server take the plates away.
 
 ---
 
@@ -112,9 +113,9 @@ git commit -am "Commit Message" (Adds all tracked files into staging area, inlin
 
 - Let's suppose we are in a place with our repository that we want to save. 
 - To be able to come back to this exact point, let's make a commit\
-`git commit -m "add file a.txt to the repository"`\
+`git commit -m "add file a.txt to the repository"`
 - We've now created a commit, a snapshot of all our tracked file at the point of the commit
-- each commit has a commit ID that can be called if we ever want to view this commit later.
+- Each commit has a commit ID that can be called if we ever want to view this commit later.
 - If we ever want to call the ID, we don't have to use the entire commit ID value, just enough to provide uniqueness. A minimum of 4 values. 
 
 ---
@@ -123,9 +124,9 @@ git commit -am "Commit Message" (Adds all tracked files into staging area, inlin
 echo "second commit text" >> a.txt
 git commit -am "update a.txt"
 ```
-- Here we are combining the -a and -m options, thus through our commit message we are adding any changes in all our tracked files, and adding the commit message within a single line. Very handy
-    - Note that the `-a` option does not add untracked files to the staging area
-- lets see what happens if we want to go back to our old commit point
+- Here we are combining the -a and -m options, thus through our commit message we are adding any changes in all our tracked files, and adding the commit message within a single line. Very handy!
+    - Note that the `-a` option does not add untracked files to the staging area.
+- Let's see what happens if we want to go back to our old commit point.
 
 ## Git Log
 ```
@@ -139,9 +140,9 @@ git log -patch (or -p for short, Shows line changes within log)
 - `git log` allows us to view the commit history of a git repository. It provides a lot of in depth information, however it is not very useful as an out of the box tool. 
 - Let us add the following options:\
 `--oneline` Shorten the commit to just 1 line\
-'--all' Shows all branch paths\
-'--graph' Visually show the path of the commit history\
-`-5` Replace 5 with any number, this limits the output to show the last 5 commits in the history (very useful)\
+`--all` Show all branch paths\
+`--graph` Visually show the path of the commit history\
+`-5` Limit the output to show the last 5 commits in the history (very useful!)
 
 - Thus let's run our new command:\
 `git log --oneline --all --graph -5` 
@@ -151,6 +152,10 @@ git log -patch (or -p for short, Shows line changes within log)
 ```
 git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 ```
+- We can now use `git lg` to call a lovely looking git log graph! 
+- Note that this does not have --all in it, and it can be included if you would like, or just add it when you want to see paths of all branches
+`git lg --all -10`
+
 
 ## Git Checkout
 ```
@@ -166,10 +171,10 @@ git checkout commitID (checkout a specific commit, replacing commitID with first
 - `HEAD` is the pointer to whatever commit we are currently observing.
 - Normally `HEAD` is attached to a branch, e.g. main, which it automatically tracks and remains unseen. 
 - When we checkout a different branch, we are moving our HEAD to look at the commitID that the branch is currently pointing to. 
-- However, we can disconnect our HEAD pointer from the branch and take a look at other commits.\
-`cat a.txt` shows that we are looking at a version of our file at the point of the first commit.\
-- In general, don't make any changes while floating. If you really need to make changes from a certain point in history, create a new branch at that point, and make changes from here, then merge into main.\
-`git checkout main` reattach our HEAD pointer to follow the main branch 
+- However, we can disconnect our HEAD pointer from the branch and take a look at other commits.
+- `cat a.txt` shows that we are looking at a version of our file at the point of the first commit.
+- In general, don't make any changes while floating. If you really need to make changes from a certain point in history, create a new branch at that point, and make changes from here, then merge into main.
+- `git checkout main` reattach our HEAD pointer to follow the main branch 
 - Check https://learngitbranching.js.org/ for a great visualization of what branches are doing within git, and how we can move the HEAD pointer to different commits in the commit history
 
 ## Branches (Finally)
@@ -184,13 +189,13 @@ git branch  (lists local branches)
 - We make a branch!\
 `git checkout -b newBranchName`
 - We now have a branch that we can make changes to, make commits to, and progress the project further, all while keeping the working copy of the file ready for the demo.
-- Once we finish our demo, we can easily merge our experimental branch to our main branch, and continue working from where we left off
+- Once we finish our demo, we can easily merge our experimental branch to our main branch, and continue working from where we left off.
 
 ### Main
 
 - Say it with me: "**Main is holy**". Main should always be a working copy of your project. If main is not functional, something has gone very wrong. 
 - Code updates should be performed on development branches, and only once they are function should they be merged into main.
-- It is from main that we merge our other branches into, applying the changes in the code to our own.
+- Note that in order to merge a branch into main (or update main with a branch's changes) we first checkout main, then merge the branch using `git merge devBranch`
 
 ### Branch Workflow
 - Thus, when we want to make changes, follow the following workflow
@@ -212,18 +217,20 @@ Let's break down what's happening:
 5. Commit the second bug fix
 6. Now that our fixBug branch is working perfectly, we checkout main to merge the changes
 7. Merge the changes from bugFix into our main branch
-8. Now that we have fixed our bug, we can delete or bugFix branch. All this does is remove the pointer to this commit, the commit history still exists. We just want to clean up our git and keep things organized
+8. Now that we have fixed our bug, we can delete or bugFix branch. All this does is remove the pointer to this commit, the commit history still exists. We just want to clean up our git and keep things organized.
 
 ## Working with remotes:
 - Now the fun begins. How do we work as a team?
-- First lets talk about the connection between our local and remote repositories
+- First let's talk about the connection between our local and remote repositories
 - I want you to fork this repo on GitHub, creating your own version of the repo, 
-- Next, create a branch: `yourNameDev` within GitHub
-- Then clone it into your local machine using the ssh download key
-- in terminal, navigate to where you want to copy the folder to
+    - A forked repo is now yours, you can do whatever you want to it (within the laws of the license). Your changes will not affect the original repo unless you make a request to pull your changes into the original repo
+- Next, create a branch in your new GitHub repo: `yourNameDev`
+- Then clone the repo to your local machine using the ssh download key 
+- Click the big green `"<>Code"` button, select SSH, and copy the text
+- In a terminal, or on Windows a Git Bash terminal, navigate to where you want to copy the folder to. 
 ```
 cd ~/Documents/
-git clone git@github.com:DannyPlatt/gitWorkshop.git
+git clone git@github.com:DannyPlatt/gitWorkshop.git   (paste the text here)
 cd gitWorkshop/
 ```
 - `git clone` copies a remote repository into your file system and initializes the repository
@@ -237,12 +244,13 @@ git checkout -b yourNameDev
 - We can now make changes to yourNameDev branch. Push them to our remote branch.
 - Once you feel like your dev branch is ready, you can create a PR to merge it into the main branch of your remote repo
 - Then, if your feeling really bold, you can contribute your changes to my repository. 
-    - Note that you must request that I pull your chagnes into my repository, as you are not set as a contributor, and cannot directly make changes to my repo
+    - Note that you must request that I pull your changes into my repository, as you are not set as a contributor, and cannot directly make changes to my repo
 - Thus the workflow is as follows:
 ```
 git pull origin main        (check for changes in the remote main branch, and merge them into your local/main branch)
 git checkout yourNameDev    (work should never be performed on the main branch)
-git commit -am "changes have been made"
+* Make your changes to the files *
+git commit -am "Make changes"
 git push origin yourNameDev (push changes to your remote branch)
 ```
 - Now, if you feel like your changes are ready to be merged into main, navigate to GitHub and create a Pull Request to merge your branch into main
@@ -259,7 +267,7 @@ git merge devBranch
 ```
 - Merge conflicts can only occur when commits are made on two or more separate branches.
     - Thus, when working alone it is unlikely you will run into merge conflicts
-- However, the following still applies as to working with groups:
+- However, the following still applies whether alone or working in groups:
 - To avoid Conflicts, always pull or merge from main before working to get the latest updates.
 0. Update your main branch with the remote main in case anyone has made changes
 1. Checkout your development branch
@@ -268,29 +276,41 @@ git merge devBranch
 4. Commit your changes
 - Then depending on if your working locally or with a group, your steps split
 - Locally:
-    5. Checkout main branch
-    6. Merge your changes into main
+    - Checkout main branch
+    - Merge your changes into main
 - Using GitHub:
-    5. push to your remote dev branch
-    6. Make a Pull Request to merge changes
+    - Push to your remote dev branch
+    - Make a Pull Request to merge changes
 
-- Communication is key. Let people know what you're going to work on, and when you're working on it.
+- Communication is key. Let people know what file you're going to change, and when you're working on it.
 - Avoid working on the same file if possible. 
 - Two different people should not be fixing the same problem.
 - These rules apply to working with remote repositories as well. 
 
 ## Merge Conflicts
-```git
+```
+CREATE A MERGE CONFLICT:
+git checkout -b bugFix
+echo "hello" >> a.txt
+git commit -am "Fix bug in bugFix"
+git checkout main
+echo "Goodbye" >> a.txt
+git commit am "Goodbye from main"
+git merge bugFix
+```
+- This will lead to the following:
+```
 Auto-merging a.txt
 CONFLICT (content): Merge conflict in a.txt
 Automatic merge failed; fix conflicts and then commit the result.
 ```
-**Do not panic!**\
+**Do not panic!**
 - During merging, Git is pulling in changes from both branches and trying to combine them.
-- Conflicts arise when we changed the same line in a file from 2 different branches.
+- Conflicts arise when we change the same lines in a file from 2 different branches.
 - Running `git status` tells us that we have conflicts to solve
 - Git helps us along the way, and gives us instructions on what to do:
 ```git
+git status
 On branch main
 You have unmerged paths.
   (fix conflicts and run "git commit")
@@ -302,27 +322,27 @@ Unmerged paths:
 
 no changes added to commit (use "git add" and/or "git commit -a")
 ```
-- Let's fix our conflicts ourselves
-- If we print our a.txt file well notice that the file looks very different
+- Let's fix our conflicts.
+- If we print our a.txt file we'll notice that the file looks very different\
+`cat a.txt`
 ```git
-old text
+* old text *
 <<<<<<< HEAD
 Goodbye from main
 =======
 hello
 >>>>>>> bugFix
 ```
-- Here we have our conflict line laid out for us
-- everything from `<<<<<<<< HEAD` to the `========` is from the main branch (where our HEAD currently points)
-- everything from `========` to the `>>>>>>>> bugFix` is from bugFix branch 
-- Choose one of the 2 texts or neither and put whatever we want.
+- Here git is telling us exactly what is wrong!
+- Everything from `<<<<<<<< HEAD` to the `========` is from the main branch (where our HEAD currently points)
+- Everything from `========` to the `>>>>>>>> bugFix` is from the bugFix branch 
 - To fix this, open the file within a text editor of your choice.
 - Navigate to the problematic lines and replace the whole section (from the `<<<<<<` to the `>>>>>>`) with your fix:
 ```
-old text
+* old text *
 hello and Goodbye from main
 ```
-- stage the file
+- Stage the file
 ```
 git add a.txt
 ```
@@ -332,8 +352,8 @@ git add a.txt
 ```git
 git commit -m "reslolve conflict merge with bugFix and Main"
 ```
-- one slight note, we have pulled the changes from bugFix into main, but have not pulled changes from main into bugfix
-- What does this mean? Our latest conflict-resolution that has happened is not seen in bugFix
+- One slight note, we have pulled the changes from bugFix into main, but have not pulled changes from main into bugfix
+- What does this mean? BugFix has not been update with our latest mergee conflict fix commit
 - `git log --oneline --decorate --all --graph` shows that main is ahead of bugFix by one commit
 ```git
 *   467eb2d - (HEAD -> main) fix conflict (2 seconds ago) <DannyPlatt>
@@ -341,7 +361,7 @@ git commit -m "reslolve conflict merge with bugFix and Main"
 | * b492774 - (bugFix) commit from bugFix (28 minutes ago) <DannyPlatt>
 * | 526ec4f - Commit from main to create conflict (27 minutes ago) <DannyPlatt>
 ```
-- This is fine if we are deleting it, however if we intend to keep it around, we must update it to match the changes from main before making changes
+- This is fine if we are deleting bugFix, however if we intend to keep it around, we must update it to match the changes from main before making changes
 ```
 git checkout bugFix
 git merge main
@@ -350,3 +370,11 @@ git merge main
 ```
 *   467eb2d - (HEAD -> bugFix, main) fix conflict (26 seconds ago) <DannyPlatt>
 ```
+Congradulations, crisis averted.
+## How to Really Learn Git
+- If you've come this far, congrats! I imagine you have learned a lot, and likely forgotten most of it.
+- So, if how do you actually learn git? Well, I can only tell you how I learned it. ChatGPT
+- I had attended a few seminars, I had practiced with git visualizers, I had even read a good chunk of the book, but it wasn't until I decide to sit down with chatGPT for an hour every night that I learned it. 
+- Each night I picked a new topic, and asked it to explain it to me. Run through problems for me to practice. Only then did all the theory finally stick in a practical and usable way. 
+- I HIGHLY encourage you to create a GitHub repo called gitPractice, and just play with it the way we've done here. Create files, delete files, commit, create branches, MAKE CONFLICTS, fight with them, solve them. This is how you learn. 
+- Also, iF you find splling erorrs or gramer suggestions, please fix them and send a PR outlining you're chnges!
