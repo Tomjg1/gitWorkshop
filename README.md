@@ -3,15 +3,16 @@ The goal of this document is to take a person who has little understanding of gi
 
 ## Goals:
 By the end of this workshop you should have a solid understanding of:
-1. Version Control Basics
+1. Version control basics
 2. Initializing git repositories
 3. Making and tracking changes using `add` and `commit` commands
 4. Knowledge of branch manipulation
-5. Collaboration with Remote repositories
-6. Resolving Conflicts
+5. Collaboration with remote repositories
+6. Resolving conflicts
 7. Workflows for both individual and group work
 
 ## TLDR:
+- If you read nothing else, this will get you by so that you can at least contribute to your group project:
 - To make changes to a group repo, follow the workflow:
 ```
 git pull
