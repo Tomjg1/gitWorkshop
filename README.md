@@ -1,7 +1,7 @@
 # Git Workshop
 The goal of this document is to take a person who has little understanding of git, and bring them to a point where they are able use git proficiently. I want to remove the fear that I so often felt when using git.
 
-## Outomes:
+## Goals:
 By the end of this workshop you should have a solid understanding of:
 1. Version Control Basics
 2. Initializing git repositories
