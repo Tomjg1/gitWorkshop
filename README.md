@@ -25,7 +25,7 @@ make pr on github
 ```
 - Do not make changes without pulling from origin
 - Push to your remote branch (NOT MAIN)
-- Do not make Pull Requests that are not complete
+- Do not make Pull Requests that are not function 
 
 ## Welcome
 Welcome to the **Git Workshop**! This repository will serve as the base for our workshop activities.
