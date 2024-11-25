@@ -1,14 +1,23 @@
 # Git Workshop
 
+## TLDR:
+- To make changes to a group repo, follow the workflow:
+```
+git pull
+git checkout devBranch
+git merge main
+* Make changes *
+git commit -am "make change"
+git push origin devBranch
+make pr on github
+```
+- Do not make changes without pulling from origin
+- Push to your remote branch (NOT MAIN)
+- Do not make Pull Requests that are not complete
+
+## Welcome
 Welcome to the **Git Workshop**! This repository will serve as the base for our workshop activities.
 Note that this workshop assumes you already have git installed and connected to your GitHub account
-
-## Overview:
-1. Learning about local git
-2. Committing changes
-3. Connecting Local git to GitHub
-
----
 
 ## Introduce Yourself to Git
 ```
@@ -39,11 +48,11 @@ git config --global user.email "yourEmail@gmail.com"
 ## Changes
  There are some handy commands we will be using this tutorial that speeds up the process of changing files\
  ```
-touch filename.txt Creates an empty file\
-rm filename.txt Deletes the file (Careful, it will not ask for permission and is unrecoverable)\
-echo "A line of text" >> filename.txt (Appends (adds) the line of text to the end of the file, or creates a new file if filename.txt does not exist)
-    - Note: if you use a single arrow: > instead of a double >> your entire file will be rewritten with just your new line of text so be careful
-cat filename.txt (print a file to the terminal)
+touch filename.txt                      (Creates an empty file)
+rm filename.txt                         (Deletes the file Careful, it will not ask for permission and is unrecoverable)
+cat filename.txt                        (print a file to the terminal)
+echo "A line of text" >> filename.txt   (Appends (adds) the line of text to the end of the file, or creates a new file if filename.txt does not exist)
+    - Note: if you use a single arrow: > instead of a double >> your entire file will be rewritten with just your new line of text remaining so be careful!
 ```
 
 - Assuming that it is an empty repository, there is nothing for our git to track. Let's create a file and start tracking it\
@@ -205,6 +214,71 @@ Let's break down what's happening:
 7. Merge the changes from bugFix into our main branch
 8. Now that we have fixed our bug, we can delete or bugFix branch. All this does is remove the pointer to this commit, the commit history still exists. We just want to clean up our git and keep things organized
 
+## Working with remotes:
+- Now the fun begins. How do we work as a team?
+- First lets talk about the connection between our local and remote repositories
+- I want you to fork this repo on GitHub, creating your own version of the repo, 
+- Next, create a branch: `yourNameDev` within GitHub
+- Then clone it into your local machine using the ssh download key
+- in terminal, navigate to where you want to copy the folder to
+```
+cd ~/Documents/
+git clone git@github.com:DannyPlatt/gitWorkshop.git
+cd gitWorkshop/
+```
+- `git clone` copies a remote repository into your file system and initializes the repository
+- When running `git branch` you'll notice we only have main. Why? where is our other branch we've made?
+- Running `git branch -a` will show all repositories, remote and local
+- Local main branch is set to track the remote main branch (remote/origin/main is the upstream of our local main)
+- To create our own local version of the remote dev branch, we must create a branch localy with the same name
+```
+git checkout -b yourNameDev
+```
+- We can now make changes to yourNameDev branch. Push them to our remote branch.
+- Once you feel like your dev branch is ready, you can create a PR to merge it into the main branch of your remote repo
+- Then, if your feeling really bold, you can contribute your changes to my repository. 
+    - Note that you must request that I pull your chagnes into my repository, as you are not set as a contributor, and cannot directly make changes to my repo
+- Thus the workflow is as follows:
+```
+git pull origin main        (check for changes in the remote main branch, and merge them into your local/main branch)
+git checkout yourNameDev    (work should never be performed on the main branch)
+git commit -am "changes have been made"
+git push origin yourNameDev (push changes to your remote branch)
+```
+- Now, if you feel like your changes are ready to be merged into main, navigate to GitHub and create a Pull Request to merge your branch into main
+
+
+## Avoiding Merge Conflicts
+```
+git checkout devBranch
+git merge main
+echo "change in dev" >> file.txt
+git commit -am "change in dev"
+git checkout main
+git merge devBranch
+```
+- Merge conflicts can only occur when commits are made on two or more separate branches.
+    - Thus, when working alone it is unlikely you will run into merge conflicts
+- However, the following still applies as to working with groups:
+- To avoid Conflicts, always pull or merge from main before working to get the latest updates.
+0. Update your main branch with the remote main in case anyone has made changes
+1. Checkout your development branch
+2. Merge any changes from main into your branch to ensure it is up-to-date
+3. Begin working, make your changes
+4. Commit your changes
+- Then depending on if your working locally or with a group, your steps split
+- Locally:
+    5. Checkout main branch
+    6. Merge your changes into main
+- Using GitHub:
+    5. push to your remote dev branch
+    6. Make a Pull Request to merge changes
+
+- Communication is key. Let people know what you're going to work on, and when you're working on it.
+- Avoid working on the same file if possible. 
+- Two different people should not be fixing the same problem.
+- These rules apply to working with remote repositories as well. 
+
 ## Merge Conflicts
 ```git
 Auto-merging a.txt
@@ -212,7 +286,7 @@ CONFLICT (content): Merge conflict in a.txt
 Automatic merge failed; fix conflicts and then commit the result.
 ```
 **Do not panic!**\
-- During merging, Git is pulling in changes from both branches and trying to rectify them
+- During merging, Git is pulling in changes from both branches and trying to combine them.
 - Conflicts arise when we changed the same line in a file from 2 different branches.
 - Running `git status` tells us that we have conflicts to solve
 - Git helps us along the way, and gives us instructions on what to do:
