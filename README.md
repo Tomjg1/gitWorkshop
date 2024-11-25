@@ -1,4 +1,15 @@
 # Git Workshop
+The goal of this document is to take a person who has little understanding of git, and bring them to a point where they are able use git proficiently. I want to remove the fear that I so often felt when using git.
+
+## Outomes:
+By the end of this workshop you should have a solid understanding of:
+1. Version Control Basics
+2. Initializing git repositories
+3. Making and tracking changes using `add` and `commit` commands
+4. Knowledge of branch manipulation
+5. Collaboration with Remote repositories
+6. Resolving Conflicts
+7. Workflows for both individual and group work
 
 ## TLDR:
 - To make changes to a group repo, follow the workflow:
@@ -223,7 +234,8 @@ Let's break down what's happening:
 - Now the fun begins. How do we work as a team?
 - First let's talk about the connection between our local and remote repositories
 - I want you to fork this repo on GitHub, creating your own version of the repo, 
-    - A forked repo is now yours, you can do whatever you want to it (within the laws of the license). Your changes will not affect the original repo unless you make a request to pull your changes into the original repo
+    - A forked repo is now yours, you can do whatever you want to it (within the laws of the license). 
+    - Your changes will not affect the original repo unless you make a request to pull your changes into the original repo
 - Next, create a branch in your new GitHub repo: `yourNameDev`
 - Then clone the repo to your local machine using the ssh download key 
 - Click the big green `"<>Code"` button, select SSH, and copy the text
@@ -253,8 +265,7 @@ git checkout yourNameDev    (work should never be performed on the main branch)
 git commit -am "Make changes"
 git push origin yourNameDev (push changes to your remote branch)
 ```
-- Now, if you feel like your changes are ready to be merged into main, navigate to GitHub and create a Pull Request to merge your branch into main
-
+- When ready, create a Pull Request on GitHub to merge your branch into main
 
 ## Avoiding Merge Conflicts
 ```
